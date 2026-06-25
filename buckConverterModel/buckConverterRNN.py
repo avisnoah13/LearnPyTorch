@@ -39,7 +39,7 @@ N_EPOCHS = 20
 LEARNING_RATE = 1e-3
 
 # Dimension of the RNN hidden-state vector.
-HIDDEN_SIZE = 32
+HIDDEN_SIZE = 64
 
 
 # Many-to-one RNN that maps a window of converter measurements to the predicted vO one period later. The RNN processes all 50 time steps left-to-right, but only the output at the last time step is passed to the linear layer -- one prediction per sequence, not one prediction per time step.
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     n_test  = len(test_loader.dataset)
 
     print(f"Loaded dataset from {DATA_PATH}")
-    print("RNN with 32 Hidden Layers, 50 Time Steps, 20 Epochs. Models [D, iL, vO] to predict vO one switching period ahead.")
+    print(f"RNN with {HIDDEN_SIZE} Hidden Layers, 50 Time Steps, {N_EPOCHS} Epochs. Models [D, iL, vO] to predict vO one switching period ahead.")
     print(f"Train: {n_train:,} samples  Test: {n_test:,}")
 
     model     = BuckRNN().to(device)

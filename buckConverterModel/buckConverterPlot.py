@@ -47,6 +47,7 @@ def load_model():
         torch.load(MODEL_PATH, weights_only=True)
     )
     model.eval()
+    print(f"Loaded trained BuckRNN from {MODEL_PATH}.")
     return model
 
 
@@ -91,6 +92,8 @@ def simulate_rnn_loop(
     D  = float(D_w[-1])
     # PI velocity form requires the previous period's error.
     e_prev = Vref - float(vO_w[-1])
+
+    print(f"Simulating RNN-in-loop for {n_periods} periods...")
 
     for t in range(seq_len, n_periods):
         Vin   = float(Vin_arr[t])
@@ -196,7 +199,7 @@ def plot_comparison():
     _, _, _, vO_rnn_3 = simulate_rnn_loop(
         model, Vin_3, RLoad_3, Vref_nom, n
     )
-
+    print("Simulation complete; plotting results...")
     # ── Plot ──────────────────────────────────────────────────
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
     fig.suptitle(

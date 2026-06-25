@@ -49,7 +49,7 @@ class BuckRNN(nn.Module):
     def __init__(self):
         super().__init__()
         # Hidden Layer
-        self.rnn = nn.RNN(
+        self.lstm = nn.LSTM(
             input_size=3,
             hidden_size=HIDDEN_SIZE,
             num_layers=1,
@@ -58,22 +58,22 @@ class BuckRNN(nn.Module):
         # Output Layer: projects the last time step's hidden state to a single vO value.
         self.fc = nn.Linear(HIDDEN_SIZE, 1)
 
-    # Runs the sequence x through self.rnn, selects the
+    # Runs the sequence x through self.lstm, selects the
     # last time step's output, and projects to a vO value.
     # x - float32 tensor (batch, seq_len, 3); each position
     #     along dim-1 is one [D, iL, vO] observation
     # Returns float32 tensor (batch, 1): predicted vO [V]
     # one switching period past the end of each window.
-    # Does not modify self.rnn or self.fc weights; that is
+    # Does not modify self.lstm or self.fc weights; that is
     # handled by the optimizer in train_epoch.
     def forward(self, x):
         # out shape: (batch, seq_len, HIDDEN_SIZE)
         # h_n shape: (1, batch, HIDDEN_SIZE) -- the final
         # hidden state, discarded here because out[:, -1, :]
         # is identical to h_n[0] for a single-layer RNN.
-        rnn_out, _ = self.rnn(x)
+        lstm_out, _ = self.lstm(x)
 
-        last_output = rnn_out[:, -1, :]  # Shape: (batch_size, hidden_size)
+        last_output = lstm_out[:, -1, :]  # Shape: (batch_size, hidden_size)
 
         # This is the many-to-one pattern from CLAUDE.md.
         return self.fc(last_output)

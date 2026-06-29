@@ -45,3 +45,6 @@ Use only `out[:, -1, :]` — this is a many-to-one RNN, not many-to-many.
 ### Training
 `nn.MSELoss` + `torch.optim.Adam(lr=1e-3)`.
 Use `torch.no_grad()` for test evaluation (same pattern as `tensorAutograd.py`).
+
+## DQN practice
+practice implementing DQN on the CartPole-v1 task from Gymnasium. This wil be built in `practiceDQN`

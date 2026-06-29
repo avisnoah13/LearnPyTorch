@@ -338,4 +338,4 @@ def make_dataset(seq_len=50, stride=5,
 
 if __name__ == "__main__":
     plot_waveforms()
-    #make_dataset()
+    make_dataset()
